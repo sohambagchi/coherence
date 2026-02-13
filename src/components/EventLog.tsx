@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import type { Message } from '../types';
-import { ScrollText, ArrowRight, ArrowLeft } from 'lucide-react';
+import { ScrollText, ArrowRight, ArrowLeft, Check } from 'lucide-react';
 
 interface EventLogProps {
     messages: Message[];
@@ -62,6 +62,10 @@ export const EventLog: React.FC<EventLogProps> = ({ messages }) => {
                         borderColor = 'border-amber-500/30';
                         iconColor = 'text-amber-400';
                         bgColor = 'bg-amber-950/10 hover:bg-amber-950/20';
+                    } else if (msg.type === 'Ack') {
+                        borderColor = 'border-teal-500/30';
+                        iconColor = 'text-teal-400';
+                        bgColor = 'bg-teal-950/10 hover:bg-teal-950/20';
                     }
 
                     // Format source/dest
@@ -80,6 +84,7 @@ export const EventLog: React.FC<EventLogProps> = ({ messages }) => {
                                     {msg.action || msg.type}
                                     {msg.type === 'Response' && <ArrowLeft size={10} />}
                                     {msg.type === 'Request' && <ArrowRight size={10} />}
+                                    {msg.type === 'Ack' && <Check size={10} />}
                                 </span>
                                 <span className="text-slate-600 text-[10px]">
                                     @{msg.timestamp}

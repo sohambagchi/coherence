@@ -34,7 +34,8 @@ export type MessageType =
     | 'Request' // Core -> Directory/Bus (e.g., GetS, GetM)
     | 'Response' // Memory/Cache -> Core (Data)
     | 'Invalidate' // Directory -> Core
-    | 'Snoop'; // Bus -> Core
+    | 'Snoop' // Bus -> Core
+    | 'Ack'; // Acknowledgement messages
 
 export interface Message {
     id: string; // Unique ID for animation tracking
