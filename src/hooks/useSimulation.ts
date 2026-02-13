@@ -43,7 +43,9 @@ export const useSimulation = (initialProtocol: Protocol = 'MESI', numCores: numb
     const dispatchMessage = useCallback((msg: Message) => {
         setState(prev => ({
             ...prev,
-            messages: [...prev.messages, msg]
+            ...prev,
+            messages: [...prev.messages, msg],
+            eventLog: [...prev.eventLog, msg]
         }));
     }, []);
 

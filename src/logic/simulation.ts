@@ -17,6 +17,7 @@ export const createInitialState = (numCores: number, protocol: Protocol, coheren
         memory: Array(16).fill(0), // 16 memory blocks initialized to 0
         directory: Array(16).fill(null).map(() => ({ state: 'Invalid', sharers: [], owner: null })),
         messages: [],
+        eventLog: [],
         globalTime: 0,
         pendingRequests: {}
     };
@@ -32,6 +33,13 @@ const findLine = (cache: CacheLine[], address: number) => cache.find(l => l.tag 
 
 export const processCoreAction = (state: SimulationState, coreId: number, action: PrAction, address: number): StepResult => {
     const newState = JSON.parse(JSON.stringify(state)) as SimulationState;
+
+    // Prevent duplicate requests if one is already pending for this core
+    if (newState.pendingRequests[coreId]) {
+        console.warn(`Core ${coreId} already has a pending request. Ignoring action ${action}.`);
+        return { newState: state, newMessages: [] };
+    }
+
     const core = newState.cores[coreId];
     let line = findLine(core.cache, address);
     const currentState = line ? line.state : 'Invalid';
@@ -70,6 +78,9 @@ export const processCoreAction = (state: SimulationState, coreId: number, action
             line.state = nextState;
         }
     }
+
+    // Update Event Log
+    newState.eventLog = [...newState.eventLog, ...newMessages];
 
     return { newState, newMessages };
 };
@@ -372,6 +383,9 @@ export const processMessageArrival = (state: SimulationState, message: Message):
             newState.memory[message.address] = message.payload;
         }
     }
+
+    // Update Event Log
+    newState.eventLog = [...newState.eventLog, ...newMessages];
 
     return { newState, newMessages };
 };

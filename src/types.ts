@@ -59,4 +59,5 @@ export interface SimulationState {
     globalTime: number;
     // Map of coreId -> { address, action, timestamp }
     pendingRequests: Record<number, { address: number; action: PrAction; timestamp: number }>;
+    eventLog: Message[];
 }

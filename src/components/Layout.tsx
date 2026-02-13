@@ -27,7 +27,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, controls }) => {
 
             <main className="container mx-auto p-6 grid grid-cols-1 lg:grid-cols-4 gap-6 h-[calc(100vh-73px)]">
                 {/* Controls Sidebar */}
-                <aside className="lg:col-span-1 bg-slate-950 rounded-xl border border-slate-800 p-4 shadow-xl overflow-y-auto">
+                <aside className="lg:col-span-1 bg-slate-950 rounded-xl border border-slate-800 p-4 shadow-xl flex flex-col overflow-hidden">
                     {controls}
                 </aside>
 
