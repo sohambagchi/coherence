@@ -13,7 +13,7 @@ const logState = (state: SimulationState, step: string) => {
 
 const run = () => {
     console.log("Starting Reproduction...");
-    let state = createInitialState(4, 'MESI');
+    let state = createInitialState(4, 'MESI', 'Snooping');
     logState(state, "Initial");
 
     // 1. Trigger Read Miss on Core 0, Address 0

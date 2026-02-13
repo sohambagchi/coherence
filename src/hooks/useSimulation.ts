@@ -25,8 +25,14 @@ export const useSimulation = (initialProtocol: Protocol = 'MESI', numCores: numb
     // Called by UI when a message animation completes
     const handleMessageArrival = useCallback((message: Message) => {
         setState(prev => {
+            // Guard: Check if message is still in the active list
+            // This prevents double-processing if animation callbacks fire multiple times (e.g. on exit)
+            const exists = prev.messages.some(m => m.id === message.id);
+            if (!exists) {
+                return prev;
+            }
+
             // Remove the arrived message from the active list
-            // Note: If we have multiple messages with same ID (unlikely due to UUID), be careful.
             const messagesExcludingArrived = prev.messages.filter(m => m.id !== message.id);
 
             // Process the arrival
